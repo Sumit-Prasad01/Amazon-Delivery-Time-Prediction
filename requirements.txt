@@ -6,3 +6,6 @@ scikit-learn
 mlflow
 statsmodels
 geopy
+pyyaml
+lightgbm
+xgboost
