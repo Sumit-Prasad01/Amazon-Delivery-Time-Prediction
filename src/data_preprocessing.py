@@ -97,11 +97,14 @@ class DataProcessor:
             raise CustomException("Error while feature selection.", e)
         
     
-    def save_data(self, df : pd.DataFrame, file_path):
+    def save_data(self, df: pd.DataFrame, file_path: str):
         try:
             logger.info("Saving data into processed folder")
 
-            df.to_csv(file_path, index = False)
+            # Drop any unnamed index-like columns before saving
+            df = df.loc[:, ~df.columns.str.contains("^Unnamed")]
+
+            df.to_csv(file_path, index=False)
 
             logger.info(f"Data Saved Successfully to {file_path}")
 
