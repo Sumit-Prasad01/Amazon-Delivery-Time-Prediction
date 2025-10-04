@@ -9,3 +9,5 @@ geopy
 pyyaml
 lightgbm
 xgboost
+fastapi
+streamlit

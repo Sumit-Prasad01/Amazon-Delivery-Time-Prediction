@@ -9,7 +9,7 @@ from utils.common_functions import read_yaml, load_data
 
 from sklearn.ensemble import RandomForestRegressor
 from lightgbm import LGBMRegressor
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 
 
 logger = get_logger(__name__)
@@ -28,32 +28,30 @@ class DataProcessor:
             os.makedirs(self.processed_dir)
 
 
-    def data_processing(self, df : pd.DataFrame):
+    def data_processing(self, df: pd.DataFrame):
         try:
-            logger.info("Starting our data processing step")
+            logger.info("Starting our data processing step with One-Hot Encoding")
             logger.info("Dropping the columns")
 
-            df.drop(columns = ["Order_ID"], inplace = True)
-            df.drop_duplicates(inplace = True)
+            
+            df = df.copy()
 
+            df.drop(columns=["Order_ID"], inplace=True)
+            df.drop_duplicates(inplace=True)
+
+            
             cat_cols = self.config['data_processing']['categorical_columns']
-            num_cols = self.config['data_processing']['numerical_columns']
+            
+            num_cols = self.config['data_processing']['numerical_columns'] 
 
-            logger.info("Applying LabelEncoding")
+            logger.info("Applying One-Hot Encoding (using pd.get_dummies)")
 
-            label_encoder = LabelEncoder()
-            mappings = {}
+            
+            df = pd.get_dummies(df, columns=cat_cols, prefix=cat_cols)
 
-            for col in cat_cols:
-                df[col] = label_encoder.fit_transform(df[col])
-                mappings[col] = {label : code for label, code in zip(label_encoder.classes_, label_encoder.transform(label_encoder.classes_))}
-
-            logger.info("Label Mappings are : ")
-
-            for col, mapping in mappings.items():
-                logger.info(f"{col} : {mapping}")
-
-            logger.info("Encoding done.")
+            
+            logger.info("One-Hot Encoding complete.")
+            logger.info(f"DataFrame shape after encoding: {df.shape}")
 
             return df
 
@@ -82,11 +80,11 @@ class DataProcessor:
             top_important_features_df = features_importance_df.sort_values(by = 'importance', ascending = False)
             num_features_to_select = self.config['data_processing']["no_of_features"]
 
-            top_15_features = top_important_features_df['features'].head(num_features_to_select).values
+            top_25_features = top_important_features_df['features'].head(num_features_to_select).values
 
-            logger.info(f"Features Selected : {top_15_features}")
+            logger.info(f"Features Selected : {top_25_features}")
 
-            top_15_df = df[top_15_features.tolist() + ['Delivery_Time']]
+            top_15_df = df[top_25_features.tolist() + ['Delivery_Time']]
 
             logger.info("Feature Selection Completed Successfully.")
 

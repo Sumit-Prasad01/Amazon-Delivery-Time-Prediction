@@ -26,4 +26,4 @@ data_processing:
     - Day_Of_Week
     - Pickup_Delay
    
-  no_of_features : 15
+  no_of_features : 25
