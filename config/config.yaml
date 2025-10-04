@@ -3,7 +3,6 @@ data_ingestion:
 
 data_processing:
   categorical_columns:
-    - Order_ID
     - Order_Date
     - Order_Time
     - Pickup_Time
@@ -12,6 +11,7 @@ data_processing:
     - Vehicle
     - Area
     - Category
+    - DayOfWeek
 
   numerical_columns:
     - Agent_Age
@@ -21,5 +21,9 @@ data_processing:
     - Drop_Latitude
     - Drop_Longitude
     - Delivery_Time
+    - Distance_km
+    - Order_Hour
+    - Day_Of_Week
+    - Pickup_Delay
    
-  no_of_features : 10
+  no_of_features : 15
