@@ -1,6 +1,6 @@
 # Amazon Delivery Time Prediction 🚚
 
-Predict the delivery time for e-commerce orders using machine learning models. This repository contains end-to-end code for data preprocessing, modeling, evaluation, experiment tracking ,deployment (API) and Streamlit (Frontend).
+Predict the delivery time for e-commerce orders using machine learning models. This repository contains end-to-end code for data preprocessing, modeling, evaluation, experiment tracking (Mlflow) ,deployment (API) and Streamlit (Frontend).
 
 ---
 
