@@ -11,3 +11,4 @@ lightgbm
 xgboost
 fastapi
 streamlit
+python-dotenv

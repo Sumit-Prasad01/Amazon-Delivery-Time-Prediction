@@ -4,6 +4,11 @@ from pydantic import BaseModel
 import joblib
 import numpy as np
 from config.paths_config import *
+from dotenv import load_dotenv
+load_dotenv()
+
+HOST = os.getenv("HOST")
+PORT = os.getenv("PORT")
 
 # Load trained model
 model = joblib.load(MODEL_OUTPUT_PATH)
@@ -75,7 +80,7 @@ def predict(features: DeliveryFeatures):
     prediction = model.predict(data)[0]
     return {"predicted_delivery_time": float(prediction)}
 def main():
-    uvicorn.run("app:app", host="localhost", port=8000, reload=True)
+    uvicorn.run("app:app", host=HOST, port=int(PORT), reload=True)
 
 if __name__ == "__main__":
     main()
